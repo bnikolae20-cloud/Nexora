@@ -5,16 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101722">
-<title>NEXORA — мессенджер</title>
+<meta name="description" content="NEXORA — современный мессенджер для общения.">
+<title>NEXORA — Messenger</title>
+
 <style>
-:root {
-  --bg:#101722;
+:root{
+  --bg:#0e1621;
   --panel:#172331;
   --panel2:#202f40;
-  --accent:#36a9ff;
-  --text:#f2f6fa;
+  --accent:#299dE8;
+  --text:#f4f7fb;
   --muted:#91a2b5;
-  --border:#2a3a4d;
+  --border:#2b3b4d;
   --danger:#ff6474;
 }
 *{box-sizing:border-box}
@@ -32,7 +34,7 @@ button{cursor:pointer}
 }
 .auth-card{
   width:100%;max-width:390px;background:var(--panel);
-  padding:30px;border:1px solid var(--border);
+  padding:28px;border:1px solid var(--border);
   border-radius:20px;box-shadow:0 20px 70px #0006;
 }
 .logo{font-size:32px;font-weight:800;letter-spacing:3px;color:var(--accent)}
@@ -46,10 +48,11 @@ button{cursor:pointer}
 }
 .field input:focus,.search-input:focus{border-color:var(--accent)}
 .primary{
-  width:100%;border:0;border-radius:10px;padding:13px;
+  border:0;border-radius:10px;padding:13px;
   color:white;background:var(--accent);font-weight:700;
 }
-.primary:disabled{opacity:.5}
+.primary:disabled{opacity:.5;cursor:wait}
+.full{width:100%}
 .switch{text-align:center;color:var(--muted);font-size:14px;margin-top:18px}
 .switch a{color:var(--accent);cursor:pointer}
 .error{color:#ff7b88;font-size:13px;min-height:18px;margin:10px 0}
@@ -61,10 +64,8 @@ button{cursor:pointer}
   width:350px;min-width:290px;background:var(--panel);
   border-right:1px solid var(--border);display:flex;flex-direction:column;
 }
-.side-header{
-  padding:20px;border-bottom:1px solid var(--border);
-}
-.brand-row{display:flex;align-items:center;justify-content:space-between}
+.side-header{padding:20px;border-bottom:1px solid var(--border)}
+.brand-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .brand{font-size:24px;font-weight:800;letter-spacing:2px;color:var(--accent)}
 .user-mini{font-size:12px;color:var(--muted);margin-top:8px}
 .search-wrap{padding:12px 15px}
@@ -87,20 +88,21 @@ button{cursor:pointer}
 }
 .chat-info{min-width:0;flex:1}
 .chat-name{font-weight:700;margin-bottom:5px}
-.chat-preview{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-preview{
+  font-size:12px;color:var(--muted);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+}
 .chat-time{font-size:10px;color:var(--muted)}
 .side-bottom{padding:14px;border-top:1px solid var(--border)}
 .small-btn{
-  background:var(--panel2);color:var(--text);border:1px solid var(--border);
-  padding:10px 12px;border-radius:9px;
+  background:var(--panel2);color:var(--text);
+  border:1px solid var(--border);padding:10px 12px;border-radius:9px;
 }
 #main{
   flex:1;display:flex;flex-direction:column;min-width:0;
   background:linear-gradient(135deg,#111c29,#101722);
 }
-.welcome{
-  margin:auto;text-align:center;padding:25px;color:var(--muted);
-}
+.welcome{margin:auto;text-align:center;padding:25px;color:var(--muted)}
 .welcome h2{color:var(--text);letter-spacing:3px}
 .chat-header{
   padding:14px 20px;background:var(--panel);
@@ -115,7 +117,7 @@ button{cursor:pointer}
   display:flex;flex-direction:column;gap:10px;
 }
 .message{
-  max-width:min(72%,520px);padding:10px 13px;
+  max-width:min(75%,520px);padding:10px 13px;
   border-radius:14px;background:#26384a;
   align-self:flex-start;overflow-wrap:anywhere;
   white-space:pre-wrap;line-height:1.4;
@@ -153,28 +155,30 @@ button{cursor:pointer}
 .modal-actions button{flex:1}
 .result{
   padding:12px;border-radius:10px;background:var(--panel2);
-  margin-top:8px;display:flex;align-items:center;gap:10px;
-  cursor:pointer;
+  margin-top:8px;display:flex;align-items:center;gap:10px;cursor:pointer;
 }
 .result:hover{outline:1px solid var(--accent)}
 #toast{
   position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
   background:#26384a;color:white;padding:12px 18px;
-  border-radius:10px;z-index:10;display:none;
-  max-width:90%;text-align:center;
+  border-radius:10px;z-index:10;display:none;max-width:90%;text-align:center;
+}
+.back-btn{
+  display:none;background:none;border:0;color:white;font-size:25px;
 }
 @media(max-width:700px){
   .sidebar{width:100%;min-width:0}
   #main{display:none}
   #app.mobile-chat .sidebar{display:none}
   #app.mobile-chat #main{display:flex}
-  .back-btn{display:block!important}
+  .back-btn{display:block}
   .messages{padding:14px}
   .message{max-width:85%}
+  .brand{font-size:21px}
 }
-.back-btn{display:none;background:none;border:0;color:white;font-size:22px}
 </style>
 </head>
+
 <body>
 
 <section id="authScreen">
@@ -191,13 +195,13 @@ button{cursor:pointer}
         <label>Пароль</label>
         <input id="loginPassword" type="password" placeholder="Твой пароль">
       </div>
-      <button class="primary" id="loginBtn">Войти</button>
+      <button class="primary full" id="loginBtn">Войти</button>
       <div class="switch">Нет аккаунта? <a id="showRegister">Создать аккаунт</a></div>
     </div>
 
     <div id="registerForm" class="hidden">
       <div class="field">
-        <label>Имя пользователя (без @)</label>
+        <label>Имя пользователя</label>
         <input id="regUsername" maxlength="20" placeholder="например, nexora_user">
       </div>
       <div class="field">
@@ -208,7 +212,7 @@ button{cursor:pointer}
         <label>Пароль (минимум 6 символов)</label>
         <input id="regPassword" type="password" placeholder="Создай пароль">
       </div>
-      <button class="primary" id="registerBtn">Зарегистрироваться</button>
+      <button class="primary full" id="registerBtn">Зарегистрироваться</button>
       <div class="switch">Уже есть аккаунт? <a id="showLogin">Войти</a></div>
     </div>
     <div class="error" id="authError"></div>
@@ -224,13 +228,16 @@ button{cursor:pointer}
       </div>
       <div class="user-mini" id="myProfile"></div>
     </div>
+
     <div class="search-wrap">
       <input class="search-input" id="chatSearch" placeholder="Поиск диалогов...">
     </div>
+
     <div class="section-title">Сообщения</div>
     <div class="chat-list" id="chatList">
       <div class="empty">Пока нет диалогов</div>
     </div>
+
     <div class="side-bottom">
       <button class="small-btn" id="logoutBtn">Выйти из аккаунта</button>
     </div>
@@ -242,6 +249,7 @@ button{cursor:pointer}
       <h2>NEXORA</h2>
       <p>Выбери диалог или начни новый чат.</p>
     </div>
+
     <div id="chatArea" class="hidden" style="display:flex;flex-direction:column;flex:1;min-height:0">
       <header class="chat-header">
         <button class="back-btn" id="backBtn">‹</button>
@@ -251,11 +259,14 @@ button{cursor:pointer}
           <div class="header-status" id="headerStatus">NEXORA</div>
         </div>
       </header>
+
       <div class="messages" id="messages">
         <div class="empty">Загрузка сообщений...</div>
       </div>
+
       <form class="composer" id="messageForm">
-        <input id="messageInput" maxlength="4000" autocomplete="off" placeholder="Написать сообщение...">
+        <input id="messageInput" maxlength="4000" autocomplete="off"
+          placeholder="Написать сообщение...">
         <button class="send-btn" type="submit">➤</button>
       </form>
     </div>
@@ -273,128 +284,90 @@ button{cursor:pointer}
     </div>
   </div>
 </div>
+
 <div id="toast"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signOut, onAuthStateChanged
+  getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,
+  signOut,onAuthStateChanged,deleteUser
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
 import {
-  getDatabase, ref, set, get, update, push, onValue,
-  onDisconnect, serverTimestamp, runTransaction
+  getDatabase,ref,set,get,update,push,onValue,
+  onDisconnect,serverTimestamp,runTransaction
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 
-/* НАСТРОЙКИ ТВОЕГО FIREBASE-ПРОЕКТА NEXORA */
-const firebaseConfig = {
-  apiKey: "AIzaSyBe15TatfyOu36C89etqRa9vn_Vq_nEH-Y",
-  authDomain: "nexora-4d562.firebaseapp.com",
-  databaseURL: "https://nexora-4d562-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "nexora-4d562",
-  storageBucket: "nexora-4d562.firebasestorage.app",
-  messagingSenderId: "285394591386",
-  appId: "1:285394591386:web:42379747aa1e1796764923"
+/* FIREBASE CONFIG — NEXORA */
+const firebaseConfig={
+  apiKey:"AIzaSyBe15TatfyOu36C89etqRa9vn_Vq_nEH-Y",
+  authDomain:"nexora-4d562.firebaseapp.com",
+  databaseURL:"https://nexora-4d562-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"nexora-4d562",
+  storageBucket:"nexora-4d562.firebasestorage.app",
+  messagingSenderId:"285394591386",
+  appId:"1:285394591386:web:42379747aa1e1796764923"
 };
 
-const appFirebase = initializeApp(firebaseConfig);
-const auth = getAuth(appFirebase);
-const db = getDatabase(appFirebase);
+const firebaseApp=initializeApp(firebaseConfig);
+const auth=getAuth(firebaseApp);
+const db=getDatabase(firebaseApp);
 
-const $ = id => document.getElementById(id);
-let currentUser = null;
-let currentProfile = null;
-let activeChatId = null;
-let activeOtherUid = null;
-let messagesUnsubscribe = null;
-let chatsUnsubscribe = null;
-let presenceUnsubscribe = null;
-let allChats = [];
+const $=id=>document.getElementById(id);
+
+let currentUser=null;
+let currentProfile=null;
+let activeChatId=null;
+let activeOtherUid=null;
+let allChats=[];
+let chatsUnsubscribe=null;
+let messagesUnsubscribe=null;
+let statusUnsubscribe=null;
+let presenceUnsubscribe=null;
+let authGeneration=0;
 
 function toast(message){
-  $("toast").textContent = message;
-  $("toast").style.display = "block";
-  setTimeout(()=>$("toast").style.display="none",3000);
+  $("toast").textContent=message;
+  $("toast").style.display="block";
+  clearTimeout(toast.timer);
+  toast.timer=setTimeout(()=>$("toast").style.display="none",3000);
 }
-function showError(message){ $("authError").textContent = message; }
+
+function showError(message){
+  $("authError").textContent=message;
+}
+
 function cleanUsername(value){
   return value.trim().replace(/^@/,"").toLowerCase();
 }
+
 function validUsername(value){
   return /^[a-z0-9_]{3,20}$/.test(value);
 }
-function chatIdFor(a,b){ return [a,b].sort().join("_"); }
-function formatTime(value){
-  if(!value) return "";
-  return new Date(value).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+
+function chatIdFor(a,b){
+  return [a,b].sort().join("_");
 }
+
+function formatTime(value){
+  if(!value)return "";
+  return new Date(value).toLocaleTimeString("ru-RU",{
+    hour:"2-digit",minute:"2-digit"
+  });
+}
+
 function escapeHtml(value){
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
+  return String(value??"").replace(/[&<>"']/g,c=>({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[c]));
 }
-function showLogin(){
-  $("loginForm").classList.remove("hidden");
-  $("registerForm").classList.add("hidden");
-  showError("");
-}
-function showRegister(){
-  $("registerForm").classList.remove("hidden");
-  $("loginForm").classList.add("hidden");
-  showError("");
-}
-$("showRegister").onclick = showRegister;
-$("showLogin").onclick = showLogin;
-
-$("loginBtn").onclick = async () => {
-  showError("");
-  const email = $("loginEmail").value.trim();
-  const password = $("loginPassword").value;
-  try{
-    await signInWithEmailAndPassword(auth,email,password);
-  }catch(e){ showError(authErrorText(e)); }
-};
-
-$("registerBtn").onclick = async () => {
-  showError("");
-  const username = cleanUsername($("regUsername").value);
-  const email = $("regEmail").value.trim();
-  const password = $("regPassword").value;
-  if(!validUsername(username)){
-    showError("Ник: 3–20 символов, только латинские буквы, цифры и _.");
-    return;
-  }
-  if(password.length < 6){ showError("Пароль должен содержать минимум 6 символов."); return; }
-
-  try{
-    const usernameRef = ref(db,"usernames/"+username);
-    const reservation = await runTransaction(usernameRef,current=>{
-      if(current === null) return auth.currentUser ? current : "__reserved__";
-      return;
-    });
-    if(!reservation.committed || reservation.snapshot.val() !== "__reserved__"){
-      showError("Это имя пользователя уже занято.");
-      return;
-    }
-
-    let credential;
-    try{
-      credential = await createUserWithEmailAndPassword(auth,email,password);
-      const uid = credential.user.uid;
-      await set(ref(db,"users/"+uid),{
-        username, email, createdAt:Date.now()
-      });
-      await set(usernameRef,uid);
-    }catch(error){
-      await set(usernameRef,null);
-      throw error;
-    }
-  }catch(e){ showError(authErrorText(e)); }
-};
 
 function authErrorText(error){
-  const code = error?.code || "";
-  const messages = {
+  const code=error?.code||"";
+  const messages={
     "auth/email-already-in-use":"Этот email уже зарегистрирован.",
     "auth/invalid-email":"Неправильный формат email.",
     "auth/weak-password":"Слишком простой пароль.",
@@ -402,175 +375,312 @@ function authErrorText(error){
     "auth/user-not-found":"Аккаунт не найден.",
     "auth/wrong-password":"Неверный пароль.",
     "auth/network-request-failed":"Проверь подключение к интернету.",
-    "PERMISSION_DENIED":"Firebase запретил доступ. Проверь Rules в базе данных."
+    "PERMISSION_DENIED":"Firebase запретил доступ. Проверь Rules."
   };
-  return messages[code] || error.message || "Произошла ошибка.";
+  return messages[code]||error?.message||"Произошла ошибка.";
 }
 
-onAuthStateChanged(auth, async user=>{
-  if(!user){
-    currentUser = null;
-    $("app").classList.add("hidden");
-    $("authScreen").classList.remove("hidden");
-    if(chatsUnsubscribe) chatsUnsubscribe();
-    if(messagesUnsubscribe) messagesUnsubscribe();
-    if(presenceUnsubscribe) presenceUnsubscribe();
+function showLogin(){
+  $("loginForm").classList.remove("hidden");
+  $("registerForm").classList.add("hidden");
+  showError("");
+}
+
+function showRegister(){
+  $("registerForm").classList.remove("hidden");
+  $("loginForm").classList.add("hidden");
+  showError("");
+}
+
+$("showRegister").onclick=showRegister;
+$("showLogin").onclick=showLogin;
+
+$("loginBtn").onclick=async()=>{
+  showError("");
+  const email=$("loginEmail").value.trim();
+  const password=$("loginPassword").value;
+  if(!email||!password){showError("Введи email и пароль.");return;}
+  $("loginBtn").disabled=true;
+  try{
+    await signInWithEmailAndPassword(auth,email,password);
+  }catch(e){
+    showError(authErrorText(e));
+  }finally{
+    $("loginBtn").disabled=false;
+  }
+};
+
+$("registerBtn").onclick=async()=>{
+  showError("");
+  const username=cleanUsername($("regUsername").value);
+  const email=$("regEmail").value.trim();
+  const password=$("regPassword").value;
+
+  if(!validUsername(username)){
+    showError("Ник: 3–20 символов, латинские буквы, цифры и _.");
+    return;
+  }
+  if(!email){showError("Введи email.");return;}
+  if(password.length<6){
+    showError("Пароль должен содержать минимум 6 символов.");
     return;
   }
 
-  currentUser = user;
+  $("registerBtn").disabled=true;
+  let credential=null;
+  let usernameClaimed=false;
+
   try{
-    const snap = await get(ref(db,"users/"+user.uid));
-    if(!snap.exists()){
-      toast("Профиль не найден. Выйди и зарегистрируйся заново.");
+    credential=await createUserWithEmailAndPassword(auth,email,password);
+    const uid=credential.user.uid;
+    const usernameRef=ref(db,"usernames/"+username);
+
+    const result=await runTransaction(usernameRef,current=>{
+      if(current===null)return uid;
+      return;
+    });
+
+    if(!result.committed||result.snapshot.val()!==uid){
+      await deleteUser(credential.user);
+      showError("Этот ник уже занят. Выбери другой.");
       return;
     }
-    currentProfile = snap.val();
-    $("authScreen").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    $("myProfile").textContent = "@"+currentProfile.username;
-    setupPresence();
-    loadChats();
-  }catch(e){ toast(authErrorText(e)); }
+
+    usernameClaimed=true;
+
+    await set(ref(db,"users/"+uid),{
+      username,
+      createdAt:Date.now()
+    });
+
+    await startApp(credential.user);
+  }catch(e){
+    if(usernameClaimed){
+      try{await set(ref(db,"usernames/"+username),null);}catch{}
+    }
+    showError(authErrorText(e));
+  }finally{
+    $("registerBtn").disabled=false;
+  }
+};
+
+onAuthStateChanged(auth,async user=>{
+  if(user){
+    await startApp(user);
+  }else{
+    stopListeners();
+    currentUser=null;
+    currentProfile=null;
+    activeChatId=null;
+    $("app").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
+  }
 });
 
-async function setupPresence(){
-  const statusRef = ref(db,"status/"+currentUser.uid);
-  const connectedRef = ref(db,".info/connected");
-  if(presenceUnsubscribe) presenceUnsubscribe();
-  presenceUnsubscribe = onValue(connectedRef,async snap=>{
-    if(snap.val() === true){
-      await onDisconnect(statusRef).set({state:"offline",lastChanged:serverTimestamp()});
-      await set(statusRef,{state:"online",lastChanged:serverTimestamp()});
+async function startApp(user){
+  const generation=++authGeneration;
+  try{
+    const profileSnap=await get(ref(db,"users/"+user.uid));
+    if(generation!==authGeneration)return;
+
+    if(!profileSnap.exists()){
+      if(auth.currentUser?.uid===user.uid){
+        toast("Профиль не найден. Возможно, регистрация не завершилась.");
+      }
+      return;
+    }
+
+    currentUser=user;
+    currentProfile=profileSnap.val();
+
+    $("authScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("myProfile").textContent="@"+currentProfile.username;
+
+    setupPresence();
+    loadChats();
+  }catch(e){
+    toast(authErrorText(e));
+  }
+}
+
+function stopListeners(){
+  authGeneration++;
+  if(chatsUnsubscribe)chatsUnsubscribe();
+  if(messagesUnsubscribe)messagesUnsubscribe();
+  if(statusUnsubscribe)statusUnsubscribe();
+  if(presenceUnsubscribe)presenceUnsubscribe();
+
+  chatsUnsubscribe=null;
+  messagesUnsubscribe=null;
+  statusUnsubscribe=null;
+  presenceUnsubscribe=null;
+}
+
+function setupPresence(){
+  if(presenceUnsubscribe)presenceUnsubscribe();
+
+  const statusRef=ref(db,"status/"+currentUser.uid);
+  const connectedRef=ref(db,".info/connected");
+
+  presenceUnsubscribe=onValue(connectedRef,async snap=>{
+    if(snap.val()===true&&currentUser){
+      try{
+        await onDisconnect(statusRef).set({
+          state:"offline",
+          lastChanged:serverTimestamp()
+        });
+        await set(statusRef,{
+          state:"online",
+          lastChanged:serverTimestamp()
+        });
+      }catch(e){
+        console.error("Presence error:",e);
+      }
     }
   });
 }
 
 function loadChats(){
-  if(chatsUnsubscribe) chatsUnsubscribe();
-  chatsUnsubscribe = onValue(ref(db,"userChats/"+currentUser.uid),async snap=>{
-    const data = snap.val() || {};
-    allChats = Object.entries(data).map(([id,value])=>({id,...value}));
+  if(chatsUnsubscribe)chatsUnsubscribe();
+
+  chatsUnsubscribe=onValue(ref(db,"userChats/"+currentUser.uid),snap=>{
+    const data=snap.val()||{};
+    allChats=Object.entries(data).map(([id,value])=>({
+      id,...value
+    }));
     allChats.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
-    await renderChats();
-  });
+    renderChats();
+  },error=>toast(authErrorText(error)));
 }
 
 async function renderChats(){
-  const query = $("chatSearch").value.trim().toLowerCase();
-  const list = $("chatList");
-  list.innerHTML = "";
-  let shown = 0;
+  if(!currentUser)return;
+
+  const query=$("chatSearch").value.trim().toLowerCase();
+  const list=$("chatList");
+  list.innerHTML="";
+
+  let shown=0;
 
   for(const chat of allChats){
-    let profileSnap;
-    try{ profileSnap = await get(ref(db,"users/"+chat.otherUid)); }
-    catch{ continue; }
-    if(!profileSnap.exists()) continue;
-    const profile = profileSnap.val();
-    if(query && !profile.username.toLowerCase().includes(query)) continue;
+    try{
+      const profileSnap=await get(ref(db,"users/"+chat.otherUid));
+      if(!profileSnap.exists())continue;
 
-    const item = document.createElement("div");
-    item.className = "chat-item"+(chat.id===activeChatId?" active":"");
-    const letter = (profile.username || "?").charAt(0).toUpperCase();
-    item.innerHTML = `
-      <div class="avatar">${escapeHtml(letter)}</div>
-      <div class="chat-info">
-        <div class="chat-name">@${escapeHtml(profile.username)}</div>
-        <div class="chat-preview">${escapeHtml(chat.lastMessage || "Начните общение")}</div>
-      </div>
-      <div class="chat-time">${formatTime(chat.updatedAt)}</div>`;
-    item.onclick = ()=>openChat(chat.id,chat.otherUid,profile);
-    list.appendChild(item);
-    shown++;
+      const profile=profileSnap.val();
+      if(query&&!profile.username.toLowerCase().includes(query))continue;
+
+      const item=document.createElement("div");
+      item.className="chat-item"+(chat.id===activeChatId?" active":"");
+
+      const letter=(profile.username||"?")[0].toUpperCase();
+
+      item.innerHTML=`
+        <div class="avatar">${escapeHtml(letter)}</div>
+        <div class="chat-info">
+          <div class="chat-name">@${escapeHtml(profile.username)}</div>
+          <div class="chat-preview">${escapeHtml(chat.lastMessage||"Начните общение")}</div>
+        </div>
+        <div class="chat-time">${formatTime(chat.updatedAt)}</div>
+      `;
+
+      item.onclick=()=>openChat(chat.id,chat.otherUid,profile);
+      list.appendChild(item);
+      shown++;
+    }catch(e){
+      console.error(e);
+    }
   }
-  if(!shown) list.innerHTML='<div class="empty">Диалогов пока нет</div>';
+
+  if(!shown){
+    list.innerHTML='<div class="empty">Диалогов пока нет</div>';
+  }
 }
+
 $("chatSearch").addEventListener("input",renderChats);
 
-$("newChatBtn").onclick = ()=>{
+$("newChatBtn").onclick=()=>{
   $("searchModal").classList.remove("hidden");
   $("userSearch").value="";
   $("searchResults").innerHTML="";
   $("userSearch").focus();
 };
-$("closeSearch").onclick = ()=>$("searchModal").classList.add("hidden");
-$("doSearch").onclick = searchUsers;
+
+$("closeSearch").onclick=()=>{
+  $("searchModal").classList.add("hidden");
+};
+
+$("doSearch").onclick=searchUsers;
+
 $("userSearch").addEventListener("keydown",e=>{
-  if(e.key==="Enter") searchUsers();
+  if(e.key==="Enter")searchUsers();
 });
 
 async function searchUsers(){
-  const username = cleanUsername($("userSearch").value);
-  const results = $("searchResults");
+  const username=cleanUsername($("userSearch").value);
+  const results=$("searchResults");
+
   results.innerHTML='<div class="empty">Поиск...</div>';
-  if(!username){ results.innerHTML='<div class="empty">Введи ник пользователя.</div>'; return; }
+
+  if(!username){
+    results.innerHTML='<div class="empty">Введи ник пользователя.</div>';
+    return;
+  }
 
   try{
-    const nameSnap = await get(ref(db,"usernames/"+username));
+    const nameSnap=await get(ref(db,"usernames/"+username));
+
     if(!nameSnap.exists()){
       results.innerHTML='<div class="empty">Пользователь не найден.</div>';
       return;
     }
-    const uid = nameSnap.val();
-    if(uid === currentUser.uid){
+
+    const uid=nameSnap.val();
+
+    if(uid===currentUser.uid){
       results.innerHTML='<div class="empty">Это твой аккаунт 🙂</div>';
       return;
     }
-    const profileSnap = await get(ref(db,"users/"+uid));
+
+    const profileSnap=await get(ref(db,"users/"+uid));
+
     if(!profileSnap.exists()){
       results.innerHTML='<div class="empty">Профиль не найден.</div>';
       return;
     }
-    const profile = profileSnap.val();
+
+    const profile=profileSnap.val();
     results.innerHTML="";
-    const item = document.createElement("div");
+
+    const item=document.createElement("div");
     item.className="result";
-    item.innerHTML=`<div class="avatar">${escapeHtml(profile.username[0].toUpperCase())}</div><div><b>@${escapeHtml(profile.username)}</b><div class="chat-preview">Нажми, чтобы открыть чат</div></div>`;
+    item.innerHTML=`
+      <div class="avatar">${escapeHtml(profile.username[0].toUpperCase())}</div>
+      <div>
+        <b>@${escapeHtml(profile.username)}</b>
+        <div class="chat-preview">Нажми, чтобы открыть чат</div>
+      </div>
+    `;
+
     item.onclick=async()=>{
       $("searchModal").classList.add("hidden");
       await openOrCreateChat(uid,profile);
     };
+
     results.appendChild(item);
-  }catch(e){ results.innerHTML='<div class="empty">'+escapeHtml(authErrorText(e))+'</div>'; }
+  }catch(e){
+    results.innerHTML='<div class="empty">'+escapeHtml(authErrorText(e))+'</div>';
+  }
 }
 
 async function openOrCreateChat(otherUid,profile){
-  const id = chatIdFor(currentUser.uid,otherUid);
-  const members = {};
-  members[currentUser.uid] = true;
-  members[otherUid] = true;
-  const now = Date.now();
+  const id=chatIdFor(currentUser.uid,otherUid);
+  const members={
+    [currentUser.uid]:true,
+    [otherUid]:true
+  };
 
   try{
-    await update(ref(db),{
-      ["chats/"+id+"/members"]:members,
-      ["chats/"+id+"/createdAt"]:now,
-      ["userChats/"+currentUser.uid+"/"+id+"/otherUid"]:otherUid,
-      ["userChats/"+currentUser.uid+"/"+id+"/updatedAt"]:now,
-      ["userChats/"+otherUid+"/"+id+"/otherUid"]:currentUser.uid,
-      ["userChats/"+otherUid+"/"+id+"/updatedAt"]:now
-    });
-    await openChat(id,otherUid,profile);
-  }catch(e){ toast(authErrorText(e)); }
-}
-
-async function openChat(id,otherUid,profile){
-  activeChatId=id;
-  activeOtherUid=otherUid;
-  $("welcome").classList.add("hidden");
-  $("chatArea").classList.remove("hidden");
-  $("headerName").textContent="@"+profile.username;
-  $("headerAvatar").textContent=profile.username[0].toUpperCase();
-  $("headerStatus").textContent="NEXORA";
-  $("app").classList.add("mobile-chat");
-  renderChats();
-
-  if(messagesUnsubscribe) messagesUnsubscribe();
-  messagesUnsubscribe = onValue(ref(db,"chats/"+id+"/messages"),snap=>{
-    const messages = snap.val() || {};
-    const box = $("messages");
-    box.innerHTML="";
-    const entries = Object.entries(messages).sort((a,b)=>(a[1].createdAt||0)-(b[1].createdAt||0));
-    if(!entries.length){
-      box.innerHTML='<div class="empty">Это начало вашей переписки. Нап
+    const chatRef=ref(db,"chats/"+id);
+    const existing=await get(c
